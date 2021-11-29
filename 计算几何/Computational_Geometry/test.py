@@ -21,7 +21,7 @@ except:
 
 if not use_file:
 	S = []
-	for i in range(int(sys.argv[1])):
+	for i in range(100):
 		p1 = (scale(random.randint(0, 1000)), scale(random.randint(0, 1000)))
 		p2 = (scale(random.randint(0, 1000)), scale(random.randint(0, 1000)))
 		s = (p1, p2)
@@ -33,7 +33,7 @@ if not use_file:
 else:
 	f = open(sys.argv[2], 'r')
 	S = eval(f.read())
-
+print(S,111111)
 intersections = []
 seen = []
 vs = False

@@ -10,9 +10,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from shapely.geometry import Polygon
-# C# program to find convex hull of a set of points. Refer
-# https://www.geeksforgeeks.org/orientation-3-ordered-points/
-# for explanation of orientation()
+
 
 # point class with x, y as point
 class Point:
@@ -55,7 +53,10 @@ def orientation(p, q, r):
 
 
 def convexHull(points, n):
+    '''
     # There must be at least 3 points
+    '''
+    
     if n < 3:
         return
 
@@ -64,25 +65,25 @@ def convexHull(points, n):
 
     hull = []
 
-    '''
-    Start from leftmost point, keep moving counterclockwise
-    until reach the start point again. This loop runs O(h)
-    times where h is number of points in result or output.
-    '''
+    # '''
+    # Start from leftmost point, keep moving counterclockwise
+    # until reach the start point again. This loop runs O(h)
+    # times where h is number of points in result or output.
+    # '''
     p = l
     q = 0
-    while (True):
+    while 1:
 
         # Add current point to result
         hull.append(p)
 
-        '''
-        Search for a point 'q' such that orientation(p, q,
-        x) is counterclockwise for all points 'x'. The idea
-        is to keep track of last visited most counterclock-
-        wise point in q. If any point 'i' is more counterclock-
-        wise than q, then update q.
-        '''
+        # '''
+        # Search for a point 'q' such that orientation(p, q,
+        # x) is counterclockwise for all points 'x'. The idea
+        # is to keep track of last visited most counterclock-
+        # wise point in q. If any point 'i' is more counterclock-
+        # wise than q, then update q.
+        # '''
         q = (p + 1) % n
 
         for i in range(n):
@@ -93,11 +94,11 @@ def convexHull(points, n):
                             points[i], points[q]) == 2):
                 q = i
 
-        '''
-        Now q is the most counterclockwise with respect to p
-        Set p as q for next iteration, so that q is added to
-        result 'hull'
-        '''
+        # '''
+        # Now q is the most counterclockwise with respect to p
+        # Set p as q for next iteration, so that q is added to
+        # result 'hull'
+        # '''
         p = q
 
         # While we don't come to first point
@@ -110,3 +111,35 @@ def convexHull(points, n):
         point_list.append((points[each].x, points[each].y))
     return(point_list)
 
+# xx = np.random.randint(100, 500, n)
+# yy = np.random.randint(50, 100, n)
+# points = []
+# for i in range(n):
+#     points.append(Point(xx[i], yy[i]))
+
+# point_list = convexHull(points, len(points))
+# plt.plot([xx[i], yy[i]],".")
+# polygon1 = Polygon(point_list)
+# plt.plot(*polygon1.exterior.xy)
+# plt.savefig("./plot_point.png")
+#
+# points = np.random.rand(100, 2)
+# point_list = convexHull(points, len(points))
+# n=111
+# xx = np.random.randint(100, 500, n)
+# yy = np.random.randint(50, 100, n)
+# points = []
+# point=[]
+# for i in range(n):
+#     point.append([xx[i], yy[i]])
+#     points.append(Point(xx[i], yy[i]))
+#
+# print(point)
+# point_list = convexHull(points, len(points))
+# # print(point_list)
+# # print(points)
+# # plt.plot(point_list)
+# plt.plot(xx,yy,".")
+# polygon1 =Polygon(point_list)
+# plt.plot(*polygon1.exterior.xy)
+# plt.show()

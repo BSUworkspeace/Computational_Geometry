@@ -17,6 +17,7 @@ from jarvis import Point
 import PIL
 from tkinter import *
 from PIL import ImageTk
+import time
 
 # 第1步，实例化object，建立窗口window
 window = tk.Tk()
@@ -31,14 +32,28 @@ var = tk.StringVar()  # 将label标签的内容设置为字符类型，用var来
 l = tk.Label(window, textvariable=var, bg='green', fg='white', font=('Arial', 12), width=30, height=2)
 # 说明： bg为背景，fg为字体颜色，font为字体，width为长，height为高，这里的长和高是字符的长和高，比如height=2,就是标签有2个字符这么高
 l.pack()
+rad=tk.IntVar()
+def show():
+    # 获取var的值
+    m.config(text="model: "+dict[rad.get()])
+
+dict = {0: "jarvis", 1: "intersection", 2: "bentiey-ottmann",3:"in_poly"}
+
+m = tk.Label(window, text="please choose model", bg="lightyellow", width=30)
+m.pack()
+
 var.set('input number of random plots')
 # 第4步，在图形界面上设定输入框控件entry框并放置
 e = tk.Entry(window, show=None)  # 显示成明文形式
 e.pack()
 
 
-def run(n):
-    print(n)
+
+for x, y in dict.items():
+    tk.Radiobutton(window, text=y, variable=rad, value=x, command=show).pack()
+
+def jarvis_model(n):
+    # print(n)
     xx = np.random.randint(100, 500, n)
     yy = np.random.randint(50, 100, n)
     points = []
@@ -46,18 +61,95 @@ def run(n):
         points.append(Point(xx[i], yy[i]))
 
     point_list = convexHull(points, len(points))
-
+    plt.plot([xx[i], yy[i]],".")
     polygon1 = Polygon(point_list)
     plt.plot(*polygon1.exterior.xy)
     plt.savefig("./plot_point.png")
+    print("success for jarvis")
+    time.sleep(5)
+
+def intersection_model(n):
+    import skgeom as sg
+    from skgeom.draw import draw
+    from random import random as r
+    import itertools
+
+    segments = []
+    for i in range(n):
+        segments.append(sg.Segment2(sg.Point2(r(), r()),
+                                    sg.Point2(r(), r())))
+    intersections = []
+    for s1, s2 in itertools.permutations(segments, 2):
+        isect = sg.intersection(s1, s2)
+        if isect:
+            intersections.append(isect)
+
+    for s in segments:
+        draw(s)
+    for i in intersections:
+        draw(i)
+
+    plt.savefig("./plot_point.png")
+    print("success for intersection")
+    time.sleep(5)
+
+def BO_model(n):
+    from lsi import intersection
+    import random
+    S = []
+    for i in range(n):
+        p1 = (random.randint(0, 1000), random.randint(0, 1000))
+        p2 = (random.randint(0, 1000), random.randint(0, 1000))
+        s = (p1, p2)
+        S.append(s)
+
+    i = intersection(S)
+
+
+    for point, line in i.items():
+        plt.plot(line[0], line[1], color="#1f77b4")
+        plt.plot(point[0], point[1] + 20, ".")
+
+    plt.savefig("./plot_point.png")
+    print("success for BO")
+
+def in_poly_model(point, poly):
+    from task3_is_in_poly import is_in_poly
+    plt.plot(point[0],point[1],".")
+    polygon1 = Polygon(poly)
+    plt.plot(*polygon1.exterior.xy)
+    plt.savefig("./plot_point.png")
+
+    return is_in_poly(point, poly)
+
+
+def run(n,model):
+    if model == 0:
+        number =int(n)
+        jarvis_model(number)
+    elif model == 1:
+        number = int(n)
+        intersection_model(number)
+    elif model == 2:
+        number = int(n)
+        BO_model(number)
+    else:
+        point=[int(n.split(":")[0].split(",")[0]),int(n.split(":")[0].split(",")[1])]
+        poly=[[int(i.split(",")[0]),int(i.split(",")[1])] for i in n.split(":")[1:]]
+        print(point,poly)
+        #3,3:0,0:7,3:8,8:5,5
+        print(in_poly_model(point,poly))
+
+
+
 
 
 # 第5步，定义两个触发事件时的函数insert_point和insert_end（注意：因为Python的执行顺序是从上往下，所以函数一定要放在按钮的上面）
 def insert_point():  # 在鼠标焦点处插入输入内容
     var = e.get()
-    # t.insert('insert', var)
-    n = int(var)
-    run(n)
+    model=rad.get()
+    n = var
+    run(n,model)
 
 
 image = None
