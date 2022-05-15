@@ -125,21 +125,21 @@ def convexHull(points, n):
 #
 # points = np.random.rand(100, 2)
 # point_list = convexHull(points, len(points))
-# n=111
-# xx = np.random.randint(100, 500, n)
-# yy = np.random.randint(50, 100, n)
-# points = []
-# point=[]
-# for i in range(n):
-#     point.append([xx[i], yy[i]])
-#     points.append(Point(xx[i], yy[i]))
-#
-# print(point)
-# point_list = convexHull(points, len(points))
-# # print(point_list)
-# # print(points)
-# # plt.plot(point_list)
-# plt.plot(xx,yy,".")
-# polygon1 =Polygon(point_list)
-# plt.plot(*polygon1.exterior.xy)
-# plt.show()
+n=1111111
+xx = np.random.randint(100, 500, n)
+yy = np.random.randint(50, 100, n)
+points = []
+point=[]
+for i in range(n):
+    point.append([xx[i], yy[i]])
+    points.append(Point(xx[i], yy[i]))
+
+print(point)
+point_list = convexHull(points, len(points))
+# print(point_list)
+# print(points)
+# plt.plot(point_list)
+plt.plot(xx,yy,".")
+polygon1 =Polygon(point_list)
+plt.plot(*polygon1.exterior.xy)
+plt.show()

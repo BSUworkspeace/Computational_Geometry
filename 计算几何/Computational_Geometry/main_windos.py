@@ -61,7 +61,7 @@ def jarvis_model(n):
         points.append(Point(xx[i], yy[i]))
 
     point_list = convexHull(points, len(points))
-    plt.plot([xx[i], yy[i]],".")
+    # plt.plot([xx[i], yy[i]],".")
     polygon1 = Polygon(point_list)
     plt.plot(*polygon1.exterior.xy)
     plt.savefig("./plot_point.png")
@@ -102,8 +102,10 @@ def BO_model(n):
         p2 = (random.randint(0, 1000), random.randint(0, 1000))
         s = (p1, p2)
         S.append(s)
+        print(s)
 
     i = intersection(S)
+    print(i)
 
 
     for point, line in i.items():

@@ -13,7 +13,7 @@ from random import random as r
 import itertools
 import matplotlib.pyplot as plt
 segments = []
-for i in range(1000):
+for i in range(100000):
     segments.append(sg.Segment2(sg.Point2(r(), r()),
                                 sg.Point2(r(), r())))
 
@@ -23,9 +23,9 @@ for s1, s2 in itertools.permutations(segments, 2):
     if isect:
         intersections.append(isect)
 
-for s in segments:
-    print(s)
-    draw(s)
-for i in intersections:
-    draw(i)
-plt.show()
+# for s in segments:
+#     print(s)
+#     draw(s)
+# for i in intersections:
+#     draw(i)
+# plt.show()
